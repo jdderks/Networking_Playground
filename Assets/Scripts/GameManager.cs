@@ -1,10 +1,11 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
 
-    int amountofplayers = 1; //TODO: to handle this with networkmanager
-
+    [SerializeField] private int amountofplayers = 1;
+    [SerializeField] private int activePlayer = 0;
     // reference to the camera manager
     public CameraManager cameraManager;
 
@@ -14,34 +15,56 @@ public class GameManager : MonoBehaviour
     // reference to the gridGenerator
     public GridGenerator gridGenerator;
 
+    private NetworkClient networkClient;
+
     // Use this for initialization
     void Start()
     {
-        // initialize the camera manager
-        cameraManager.Init();
 
         // initialize the grid generator
         gridGenerator.Init();
 
         // initialize the player manager
-        playerManager.Init();
-
-
+        playerManager.Init(amountofplayers);
 
         //Set camera follow target to player
-        cameraManager.SetTarget(playerManager.PlayerGOs[0].transform);
+        cameraManager.Init(amountofplayers);
+
+        SetNetworkClient(0);
+
+        cameraManager.SetTargets(playerManager.PlayerGOs);
     }
+
+    public void SetNetworkClient(int currentIndex)
+    {
+        networkClient = gameObject.AddComponent<NetworkClient>();
+        
+        for (int i = 0; i < amountofplayers; i++)
+        {
+            if (i != currentIndex)
+            {
+                cameraManager.CameraObjects[i].SetActive(false);
+            } 
+            else
+            {
+                networkClient.ActivePlayer = playerManager.Players[i];
+                networkClient.ActiveCamera = cameraManager.CameraControllers[i];
+                networkClient.ActiveCamera.gameObject.SetActive(true);
+            }
+        }
+
+    }
+
 
     // Update is called once per frame
     void Update()
     {
-        // update the player manager
-        playerManager.UpdatePlayer();
+        networkClient.UpdateClient();
     }
 
-    private void FixedUpdate()
+    //LateUpdate for camera behaviours
+    private void LateUpdate()
     {
-        // update the camera manager
-        cameraManager.UpdateCamera();
+        networkClient.LateUpdateClient();
     }
 }

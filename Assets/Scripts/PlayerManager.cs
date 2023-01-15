@@ -6,40 +6,37 @@ public class PlayerManager : MonoBehaviour
     // The speed at which the player moves
     public float speed = 5.0f;
 
-    //Amount of players
-    private int amountOfPlayers = 1;
-    
     // Reference to the Player object
     private List<Player> players;
     private List<GameObject> playerGOs;
 
+    //The current active player
+    [SerializeField] private Player activePlayer;
+
     // Reference to the player prefab
     [SerializeField] private GameObject playerPrefab;
 
+    public List<Player> Players { get => players; set => players = value; }
     public List<GameObject> PlayerGOs { get => playerGOs; set => playerGOs = value; }
-    public int AmountOfPlayers { get => amountOfPlayers; set => amountOfPlayers = value; }
 
     // Start
-    public void Init()
+    public void Init(int amountOfPlayers)
     {
+        Players = new List<Player>();
+        PlayerGOs = new List<GameObject>();
+
         for (int i = 0; i < amountOfPlayers; i++)
         {
-            PlayerGOs[i] = Instantiate(playerPrefab);
-            players[i] = PlayerGOs[i].GetComponent<Player>();
-            players[i].Rb = playerGOs[i].GetComponent<Rigidbody2D>();
-            players[i].Speed = speed;
+            GameObject playerGO = Instantiate(playerPrefab);
+            playerGOs.Add(playerGO);
+
+            Player player = playerGO.GetComponent<Player>();
+            players.Add(player);
+
+            Players[i] = PlayerGOs[i].GetComponent<Player>();
+            Players[i].Rb = PlayerGOs[i].GetComponent<Rigidbody2D>();
+            Players[i].Speed = speed;
         }
-        
-    }
-
-    // Update is called once per frame
-    public void UpdatePlayer()
-    {
-        // Get input from the user
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-
-        // Move the player in the specified direction
-        players[0].Move(horizontalInput, verticalInput);
+        activePlayer = Players[0];
     }
 }

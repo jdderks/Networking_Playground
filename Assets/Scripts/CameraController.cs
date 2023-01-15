@@ -6,7 +6,9 @@ public class CameraController : MonoBehaviour
     private Transform target;
 
     // The speed at which the camera should follow the target
-    private float followSpeed = 5.0f;
+    [SerializeField] private float followSpeed = 0f; //BUG: JITTERY MOVEMENT WHEN HIGHER THAN 0
+
+    private Vector3 velocity = new Vector3();
 
     public Transform Target { get => target; set => target = value; }
 
@@ -18,6 +20,7 @@ public class CameraController : MonoBehaviour
         targetPosition.z = transform.position.z;
 
         // Smoothly move the camera towards the target position
-        transform.position = Vector3.Lerp(transform.position, targetPosition, followSpeed * Time.deltaTime);
+        //transform.position = Vector3.Lerp(transform.position, targetPosition, followSpeed * Time.deltaTime);
+        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, followSpeed);
     }
 }
