@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraManager: {fileID: 1522447907}
   playerManager: {fileID: 956015491}
+  gridGenerator: {fileID: 1796307401}
 --- !u!4 &141992290
 Transform:
   m_ObjectHideFlags: 0
@@ -208,7 +209,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -404,7 +405,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc44f7be4f7749642950f13d4a2363e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridWidth: 50
-  gridHeight: 100
-  cellSize: 1
+  dimensions: {x: 25, y: 50}
+  amountOfPlayers: 1
+  spawnPoints: []
   cellPrefab: {fileID: 7803223259806163420, guid: 86c2773b633152b4f9ace9f370c03fb5, type: 3}

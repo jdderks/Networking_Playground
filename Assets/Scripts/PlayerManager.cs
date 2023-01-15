@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
@@ -5,22 +6,30 @@ public class PlayerManager : MonoBehaviour
     // The speed at which the player moves
     public float speed = 5.0f;
 
+    //Amount of players
+    private int amountOfPlayers = 1;
+    
     // Reference to the Player object
-    private Player player;
+    private List<Player> players;
+    private List<GameObject> playerGOs;
 
     // Reference to the player prefab
     [SerializeField] private GameObject playerPrefab;
-    private GameObject playerGO;
 
-    public GameObject PlayerGO { get => playerGO; set => playerGO = value; }
+    public List<GameObject> PlayerGOs { get => playerGOs; set => playerGOs = value; }
+    public int AmountOfPlayers { get => amountOfPlayers; set => amountOfPlayers = value; }
 
     // Start
     public void Init()
     {
-        PlayerGO = Instantiate(playerPrefab);
-        player = PlayerGO.GetComponent<Player>();
-        player.Rb = playerGO.GetComponent<Rigidbody2D>();
-        player.Speed = speed;
+        for (int i = 0; i < amountOfPlayers; i++)
+        {
+            PlayerGOs[i] = Instantiate(playerPrefab);
+            players[i] = PlayerGOs[i].GetComponent<Player>();
+            players[i].Rb = playerGOs[i].GetComponent<Rigidbody2D>();
+            players[i].Speed = speed;
+        }
+        
     }
 
     // Update is called once per frame
@@ -31,6 +40,6 @@ public class PlayerManager : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
 
         // Move the player in the specified direction
-        player.Move(horizontalInput, verticalInput);
+        players[0].Move(horizontalInput, verticalInput);
     }
 }

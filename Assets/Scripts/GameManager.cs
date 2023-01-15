@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+
+    int amountofplayers = 1; //TODO: to handle this with networkmanager
+
     // reference to the camera manager
     public CameraManager cameraManager;
 
@@ -17,14 +20,16 @@ public class GameManager : MonoBehaviour
         // initialize the camera manager
         cameraManager.Init();
 
-        // initialize the player manager
-        playerManager.Init();
-
         // initialize the grid generator
         gridGenerator.Init();
 
+        // initialize the player manager
+        playerManager.Init();
+
+
+
         //Set camera follow target to player
-        cameraManager.SetTarget(playerManager.PlayerGO.transform);
+        cameraManager.SetTarget(playerManager.PlayerGOs[0].transform);
     }
 
     // Update is called once per frame
