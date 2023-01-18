@@ -9,6 +9,7 @@ public class GridGenerator : MonoBehaviour
 
     //Amount of players
     [SerializeField] private int amountOfPlayers;
+    [SerializeField] private int spawnSpacing = 2;
 
     //Spawnpoints determined by amountOfPlayers
     [SerializeField] private List<Vector2> spawnPoints;
@@ -20,6 +21,7 @@ public class GridGenerator : MonoBehaviour
     private GridCell[,] cells;
 
     public int AmountOfPlayers { get => amountOfPlayers; set => amountOfPlayers = value; }
+    public List<Vector2> SpawnPoints { get => spawnPoints; set => spawnPoints = value; }
 
     // Use this for initialization
     public void Init()
@@ -71,13 +73,13 @@ public class GridGenerator : MonoBehaviour
                 cell.SetTile();
             }
         }
-        SetSpawnPoints();
+
     }
 
     [ContextMenu("Set spawnpoints")]
-    public void SetSpawnPoints()
+    public void SetSpawnPoints(int amount)
     {
-        spawnPoints = GetRandomPoints(new Vector2[dimensions.x, dimensions.y], amountOfPlayers, 2);
+        SpawnPoints = GetRandomPoints(new Vector2[dimensions.x, dimensions.y], amount, spawnSpacing);
     }
 
     public List<Vector2> GetRandomPoints(Vector2[,] grid, int numPoints, int spacing)

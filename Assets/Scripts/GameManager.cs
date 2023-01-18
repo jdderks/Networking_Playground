@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-
     [SerializeField] private int amountofplayers = 1;
     [SerializeField] private int activePlayer = 0;
     // reference to the camera manager
@@ -23,9 +22,9 @@ public class GameManager : MonoBehaviour
 
         // initialize the grid generator
         gridGenerator.Init();
-
+        gridGenerator.SetSpawnPoints(amountofplayers);
         // initialize the player manager
-        playerManager.Init(amountofplayers);
+        playerManager.Init(amountofplayers, gridGenerator.SpawnPoints);
 
         //Set camera follow target to player
         cameraManager.Init(amountofplayers);

@@ -20,14 +20,14 @@ public class PlayerManager : MonoBehaviour
     public List<GameObject> PlayerGOs { get => playerGOs; set => playerGOs = value; }
 
     // Start
-    public void Init(int amountOfPlayers)
+    public void Init(int amountOfPlayers, List<Vector2> spawnPoints)
     {
         Players = new List<Player>();
         PlayerGOs = new List<GameObject>();
 
         for (int i = 0; i < amountOfPlayers; i++)
         {
-            GameObject playerGO = Instantiate(playerPrefab);
+            GameObject playerGO = Instantiate(playerPrefab, spawnPoints[i], Quaternion.identity);
             playerGOs.Add(playerGO);
 
             Player player = playerGO.GetComponent<Player>();
