@@ -5,13 +5,13 @@ using UnityEngine;
 
 public enum OpCode
 { //Don't go over a full byte size for each opcode (a byte bigger than 255)
-    KEEP_ALIVE = 0,
-    WELCOME = 1,
-    START_GAME = 2,
-    MOVE = 3,
-    SHOOT = 4,
-    GAMEOVER = 5,
-    REMATCH = 6
+    KEEP_ALIVE = 1,
+    WELCOME = 2,
+    START_GAME = 3,
+    MOVE = 4,
+    SHOOT = 5,
+    GAMEOVER = 6,
+    REMATCH = 7
 }
 public static class NetUtility
 {

@@ -40,12 +40,12 @@ public class Server : MonoBehaviour
         }
         else
         {
-            Debug.Log("Currently listening on port " + endpoint.Port);
             driver.Listen();
+            Debug.Log("Currently listening on port " + endpoint.Port);
         }
 
         //4 for max amount of players
-        connections = new NativeList<NetworkConnection>(4, Allocator.Persistent);
+        connections = new NativeList<NetworkConnection>(2, Allocator.Persistent);
         isActive = true;
     }
     public void Shutdown()
@@ -69,7 +69,7 @@ public class Server : MonoBehaviour
             return;
         }
 
-        //keepAlive();
+        KeepAlive();
 
         driver.ScheduleUpdate().Complete();
 
@@ -77,6 +77,15 @@ public class Server : MonoBehaviour
         AcceptNewConnections(); //Is there something knocking on the door to enter server
         UpdateMessagePump(); //Are they sending us a message if so we have to reply
     }
+    private void KeepAlive()
+    {
+        if (Time.time - lastKeepAlive > keepAliveTickRate)
+        {
+            lastKeepAlive = Time.time;
+            Broadcast(new NetKeepAlive());
+        }
+    }
+
     private void CleanupConnections()
     {
         for (int i = 0; i < connections.Length; i++)
@@ -84,7 +93,7 @@ public class Server : MonoBehaviour
             if (!connections[i].IsCreated) //If connection is dropped
             {
                 connections.RemoveAtSwapBack(i);
-                --i;
+                i--;
             }
         }
     }

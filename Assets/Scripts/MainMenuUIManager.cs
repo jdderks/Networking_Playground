@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class MainMenuUIManager : MonoBehaviour
@@ -7,6 +8,11 @@ public class MainMenuUIManager : MonoBehaviour
     private List<GameObject> uiPanels = new List<GameObject>();
     private int activePanelIndex = 0;
 
+    [SerializeField] private TMP_InputField ipInputField;
+    [SerializeField] private TextMeshProUGUI amountOfPlayersConnectedText;
+
+    public Server server;
+    public Client client;
 
     private void Awake()
     {
@@ -17,7 +23,7 @@ public class MainMenuUIManager : MonoBehaviour
         }
     }
 
-    private void ChangePanel(int panelIndex)
+    public void ChangePanel(int panelIndex)
     {
         for (int i = 0; i < uiPanels.Count; i++)
         {
@@ -31,5 +37,22 @@ public class MainMenuUIManager : MonoBehaviour
                 uiPanels[i].SetActive(true);
             }
         }
+    }
+
+    public void HostOnlineButton()
+    {
+        server.Init(8007);
+        client.Init("127.0.0.1",8007);
+    }
+
+    public void OnOnlineConnect()
+    {
+        client.Init(ipInputField.text, 8007);
+    }
+
+    public void Disconnect()
+    {
+        server.Shutdown();
+        client.Shutdown();
     }
 }
