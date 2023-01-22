@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NetworkClient : MonoBehaviour
+public class BehaviourManager : MonoBehaviour
 {
     [SerializeField] private Player activePlayer;
     [SerializeField] private CameraController activeCamera;

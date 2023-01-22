@@ -14,10 +14,10 @@ public class GameManager : MonoBehaviour
     // reference to the gridGenerator
     public GridGenerator gridGenerator;
 
-    private NetworkClient networkClient;
+    private BehaviourManager networkClient;
 
     // Use this for initialization
-    void Start()
+    void StartGame()
     {
 
         // initialize the grid generator
@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
 
     public void SetNetworkClient(int currentIndex)
     {
-        networkClient = gameObject.AddComponent<NetworkClient>();
+        networkClient = gameObject.AddComponent<BehaviourManager>();
         
         for (int i = 0; i < amountofplayers; i++)
         {
@@ -58,12 +58,12 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        networkClient.UpdateClient();
+        if(networkClient != null)networkClient.UpdateClient();
     }
 
     //LateUpdate for camera behaviours
     private void LateUpdate()
     {
-        networkClient.LateUpdateClient();
+        if (networkClient != null) networkClient.LateUpdateClient();
     }
 }
